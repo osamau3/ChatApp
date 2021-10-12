@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { ChatFooterSC } from "../styled";
 
 export default function ChatFooter(props) {
-    const [message, setMessage] = useState(undefined)
+    const [message, setMessage] = useState('')
     const [isBtnDisabled, setIsBtnDisabled] = useState(true)
     const inputRef = useRef(null)
 
@@ -22,18 +22,20 @@ export default function ChatFooter(props) {
     }
 
     const handleSendMessage = (event) => {
-        if(event.key === 'Enter' || event.target.ariaLabel === 'sendMessageBtn') {
+        if (event.key === 'Enter' || event.target.ariaLabel === 'sendMessageBtn') {
             // simulate push message to server
-            setTimeout(() => {
-                props.onSendMessge({
-                    date: Date.now(),
-                    message: message,
-                    from: 'Osama Yousry',
-                    isIncomming: false,
-                })
-            }, 500)
-            setMessage('')
-            setIsBtnDisabled(true)
+            if (message) {
+                setTimeout( () => {
+                    props.onSendMessge({
+                        date: Date.now(),
+                        message: message,
+                        from: 'Osama Yousry',
+                        isIncomming: false,
+                    })
+                }, 500)
+                setMessage('')
+                setIsBtnDisabled(true)
+            }
         }
     }
 
@@ -45,7 +47,7 @@ export default function ChatFooter(props) {
                 placeholder="Type a message..."
                 value={message}
                 onChange={handleMessaging}
-                onKeyPress={message && handleSendMessage}
+                onKeyPress={handleSendMessage}
             />
             <button
                 aria-label="sendMessageBtn"
