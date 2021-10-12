@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 
 import Message from "../Message/Message"
 import { ChatBodySC } from "../styled";
@@ -53,6 +53,7 @@ export default function ChatBody(props) {
         }
     }, [props.newMessage])
 
+
     const avatar = "https://icon-library.com/images/avatar-icon/avatar-icon-8.jpg"
 
     const senderConversation = conversation.filter(({ isIncomming }) => isIncomming)
@@ -68,12 +69,14 @@ export default function ChatBody(props) {
                         <div key={id} aria-label="messageItem">
                             <Message
                                 key={id}
+                                id={id}
                                 data-testid="messageItem"
                                 isIncomming={isIncomming}
                                 messageDate={date}
                                 messageContent={message}
                                 from={from}
                                 avatar={avatar}
+                                isNew={index + 1 === conversation.length}
                                 isLast={lastMessageFromSenderId === id}
                             />
                         </div>
